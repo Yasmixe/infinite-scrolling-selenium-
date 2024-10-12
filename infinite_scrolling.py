@@ -38,14 +38,20 @@ while True:
 urls = []
 soup = BeautifulSoup(driver.page_source, "html.parser")
 nb = 0 
-# Rechercher toutes les balises <a> ayant la classe '_company_86jzd_338'
-for a_tag in soup.find_all("a", class_="_company_86jzd_338"):
-    if a_tag is not None and 'href' in a_tag.attrs:  # Vérifier que 'a_tag' existe et possède un 'href'
-        base = "https://www.ycombinator.com"
-        link = a_tag.attrs['href']
-        url = urljoin(base, link)  # Construire l'URL complète
-        urls.append(url)  # Ajouter l'URL à la liste
-        print(url)  # Afficher l'URL
-        nb = nb+ 1
+# Créer/ouvrir un fichier pour écrire les URLs
+with open("company_links.txt", "w") as file:
+    soup = BeautifulSoup(driver.page_source, "html.parser")
 
-print(nb)
+    # Rechercher toutes les balises <a> ayant la classe '_company_86jzd_338'
+    for a_tag in soup.find_all("a", class_="_company_86jzd_338"):
+        if a_tag is not None and 'href' in a_tag.attrs:  # Vérifier que 'a_tag' existe et possède un 'href'
+            base = "https://www.ycombinator.com"
+            link = a_tag.attrs['href']
+            url = urljoin(base, link)  # Construire l'URL complète
+            urls.append(url)  # Ajouter l'URL à la liste
+            file.write(url + "\n")  # Écrire l'URL dans le fichier avec un saut de ligne
+            print(url)  # Afficher l'URL
+            nb += 1  # Incrémenter le compteur
+
+# Le fichier 'company_links.txt' contient maintenant tous les liens
+print(f"Total des liens récupérés: {nb}")
