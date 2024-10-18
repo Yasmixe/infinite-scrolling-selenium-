@@ -20,8 +20,11 @@ def create_full_links(data):
         for link_obj in entry['links']:
             link = link_obj['link']
 
-            # Fusionner l'URL de base avec le lien
-            full_link = base_url.rstrip('/') + '/' + link.lstrip('/')
+            # Si le lien ne commence pas par 'http', on fusionne avec l'URL de base
+            if not link.startswith('http'):
+                full_link = base_url.rstrip('/') + '/' + link.lstrip('/')
+            else:
+                full_link = link  # Garder tel quel s'il contient déjà 'http'
 
             # Ajouter le lien s'il n'a pas encore été vu
             if full_link not in links_seen:
@@ -42,7 +45,7 @@ def create_full_links(data):
 full_links_data = create_full_links(data)
 
 # Sauvegarder les résultats dans un nouveau fichier JSON
-output_file_path = 'resultat.json'
+output_file_path = 'resultat2.json'
 with open(output_file_path, 'w', encoding='utf-8') as f:
     json.dump(full_links_data, f, ensure_ascii=False, indent=4)
 
