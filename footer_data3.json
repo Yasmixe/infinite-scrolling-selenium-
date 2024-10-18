@@ -1,4 +1,4 @@
-{
+[{
     "url": "http://airbnb.com",
     "links": [
         {
@@ -11154,4 +11154,5 @@
             "content": "Privacy Police"
         }
     ]
-},
+}
+]
